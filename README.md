@@ -1,59 +1,54 @@
 # Facheritos - Proyecto completo
 
-Hola. Este es el proyecto final de **Facheritos**, la tienda infantil que arme en React, ahora conectada con una API en Node.js y los productos guardados en Firebase.
+Hola. Este proyecto es la tienda **Facheritos** que arme en React, ahora conectada con mi propia API en Node.js y los productos guardados en Firebase.
 
-## Links del proyecto online
+La idea es simple: la pagina web pide los productos a la API, y la API los guarda en la nube.
 
-- **Tienda:** https://facheritos.netlify.app/
-- **API:** https://facheritos-1.onrender.com
-- **Codigo:** https://github.com/najazangeclau/Facheritos
+## Links online
 
-## Que es cada cosa (en simple)
+- Tienda: https://facheritos.netlify.app/
+- API: https://facheritos-1.onrender.com
+- Codigo: https://github.com/najazangeclau/Facheritos
 
-- **frontend/** → la pagina web de Facheritos (React)
-- **backend/** → la API que maneja productos y login (Node.js)
-- **Firebase** → donde se guardan los productos en la nube
+## Como usarlo en tu computadora
+
+### Pagina web (React)
+
+1. Abrí la terminal en la carpeta `frontend`.
+2. Ejecutá:
+
+```bash
+npm install
+npm run dev
+```
+
+3. Entrá a `http://localhost:5173`
+
+### API (Node.js)
+
+1. Abrí otra terminal en la carpeta `backend`.
+2. Copiá `.env.example` a `.env` y completá las claves de Firebase.
+3. Ejecutá:
+
+```bash
+npm install
+npm run seed
+npm run start:local
+```
+
+4. La API queda en `http://localhost:3001`
+
+## Que hace cada parte
+
+- `frontend/` → la tienda que ve el usuario (productos, carrito, admin).
+- `backend/` → la API que maneja productos y login.
+- **Firebase** → donde se guardan los productos en la nube.
 
 Flujo:
 
 ```
 Pagina web  →  API  →  Firebase
 ```
-
-## Como usarlo en tu computadora
-
-### 1) Backend (API)
-
-```bash
-cd backend
-npm install
-```
-
-Copia `.env.example` a `.env` y completa las claves de Firebase.
-
-Para importar los productos de Facheritos a Firebase (solo la primera vez):
-
-```bash
-npm run seed
-```
-
-Para prender el servidor:
-
-```bash
-npm run start:local
-```
-
-Queda en: `http://localhost:3001`
-
-### 2) Frontend (pagina web)
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-Queda en: `http://localhost:5173`
 
 ## Login de administrador
 
@@ -62,47 +57,38 @@ Para entrar al panel admin en la web:
 - Email: `admin@facheritos.com`
 - Password: `admin123`
 
+Desde ahi podes crear, editar y borrar productos.
+
 ## Endpoints de la API
+
+La API esta online en Render:
+
+https://facheritos-1.onrender.com
 
 ### Listar productos
 
 - Metodo: `GET`
 - URL: `https://facheritos-1.onrender.com/api/products`
 
-### Ver un producto
+### Ver un producto por id
 
 - Metodo: `GET`
 - URL: `https://facheritos-1.onrender.com/api/products/:id`
+- Ejemplo: `https://facheritos-1.onrender.com/api/products/987654321`
 
-### Crear producto (necesita login)
+### Crear producto
 
 - Metodo: `POST`
 - URL: `https://facheritos-1.onrender.com/api/products/create`
-- Header: `Authorization: Bearer TU_TOKEN`
+- Necesita login (Bearer Token)
 
-Body JSON:
-
-```json
-{
-  "title": "Buzo Frizado",
-  "price": 22000,
-  "category": "buzos",
-  "description": "Buzo comodo para ninos",
-  "image": "/img/logo.png"
-}
-```
-
-### Editar producto (necesita login)
-
-- Metodo: `PUT`
-- URL: `https://facheritos-1.onrender.com/api/products/:id`
-
-### Eliminar producto (necesita login)
+### Eliminar producto
 
 - Metodo: `DELETE`
 - URL: `https://facheritos-1.onrender.com/api/products/:id`
+- Necesita login (Bearer Token)
 
-### Login (para obtener el token)
+### Login
 
 - Metodo: `POST`
 - URL: `https://facheritos-1.onrender.com/auth/login`
@@ -116,24 +102,35 @@ Body JSON:
 }
 ```
 
+## Si te aparece "fetch failed" en local
+
+En Windows a veces pasa por temas de certificados.
+El backend ya viene preparado para eso usando:
+
+`node --use-system-ca`
+
+Por eso en local se usa `npm run start:local` en vez de `npm start`.
+
+## API usada
+
+Antes en la pre-entrega usaba [FakeStore API](https://fakestoreapi.com).
+Ahora este proyecto usa **mi propia API** desplegada en Render:
+
+https://facheritos-1.onrender.com
+
+Y los productos se guardan en **Firebase Firestore**.
+
 ## Continuidad del proyecto
 
-Este trabajo es la evolucion de lo que fui haciendo en los cursos:
+Este trabajo sigue lo que fui haciendo en los cursos:
 
-1. **React** → arme la tienda Facheritos con carrito y panel admin
-2. **Pre-entrega Node** → practique pedir productos a una API
-3. **Pre-proyecto Node** → cree una API simple en localhost
-4. **Proyecto final** → API con capas, Firebase, JWT y deploy online
+1. **React** → arme la tienda Facheritos.
+2. **Pre-entrega Node** → practique pedir productos a una API (FakeStore).
+3. **Pre-proyecto Node** → cree una API simple en localhost.
+4. **Proyecto final** → API con capas, Firebase, JWT y todo online.
 
-## Estructura del repo
+## Nota sobre Render
 
-```
-Facheritos/
-├── backend/     API Node.js
-├── frontend/    Pagina React
-└── README.md
-```
-
-## Nota sobre Render (plan gratis)
-
-Si la API tarda en responder la primera vez, es normal. Render "duerme" cuando nadie la usa un rato. Espera unos segundos y recarga.
+Si la API tarda en responder la primera vez, es normal.
+En el plan gratis Render "duerme" cuando nadie la usa un rato.
+Esperá unos segundos y recargá.
