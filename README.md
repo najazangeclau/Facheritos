@@ -1,131 +1,139 @@
 # Facheritos - Proyecto completo
 
-Tienda infantil **Facheritos** (React) con API Node.js, Firebase Firestore y JWT.
+Hola. Este es el proyecto final de **Facheritos**, la tienda infantil que arme en React, ahora conectada con una API en Node.js y los productos guardados en Firebase.
 
-Continuidad de cursos:
-- **React**: frontend, carrito, panel admin
-- **Node.js**: API REST en capas, autenticacion, persistencia en Firestore
+## Links del proyecto online
 
-## Estructura
+- **Tienda:** https://facheritos.netlify.app/
+- **API:** https://facheritos-1.onrender.com
+- **Codigo:** https://github.com/najazangeclau/Facheritos
+
+## Que es cada cosa (en simple)
+
+- **frontend/** → la pagina web de Facheritos (React)
+- **backend/** → la API que maneja productos y login (Node.js)
+- **Firebase** → donde se guardan los productos en la nube
+
+Flujo:
 
 ```
-facheritos-completo/
-├── backend/     API Node.js (proyecto final)
-├── frontend/    Facheritos React (Vite)
-└── README.md
+Pagina web  →  API  →  Firebase
 ```
 
-## Arquitectura
+## Como usarlo en tu computadora
 
-```
-Frontend (Netlify)  →  API (Render)  →  Firebase (Firestore)
-```
-
-## Desarrollo local
-
-### Backend
+### 1) Backend (API)
 
 ```bash
 cd backend
-cp .env.example .env   # completar variables
 npm install
-npm run seed           # importar productos (una vez)
-npm run start:local    # Windows
 ```
 
-API en `http://localhost:3001`
+Copia `.env.example` a `.env` y completa las claves de Firebase.
 
-### Frontend
+Para importar los productos de Facheritos a Firebase (solo la primera vez):
+
+```bash
+npm run seed
+```
+
+Para prender el servidor:
+
+```bash
+npm run start:local
+```
+
+Queda en: `http://localhost:3001`
+
+### 2) Frontend (pagina web)
 
 ```bash
 cd frontend
-cp .env.example .env
 npm install
 npm run dev
 ```
 
-App en `http://localhost:5173`
+Queda en: `http://localhost:5173`
 
-Login admin: `admin@facheritos.com` / `admin123`
+## Login de administrador
 
----
+Para entrar al panel admin en la web:
 
-## Deploy en produccion
+- Email: `admin@facheritos.com`
+- Password: `admin123`
 
-### Paso 1: GitHub
+## Endpoints de la API
 
-1. Crear repo en GitHub (ej. `facheritos-completo`)
-2. Subir este proyecto:
+### Listar productos
 
-```bash
-cd facheritos-completo
-git init
-git add .
-git commit -m "Proyecto completo Facheritos: React + API Node + Firebase"
-git branch -M main
-git remote add origin https://github.com/TU_USUARIO/facheritos-completo.git
-git push -u origin main
+- Metodo: `GET`
+- URL: `https://facheritos-1.onrender.com/api/products`
+
+### Ver un producto
+
+- Metodo: `GET`
+- URL: `https://facheritos-1.onrender.com/api/products/:id`
+
+### Crear producto (necesita login)
+
+- Metodo: `POST`
+- URL: `https://facheritos-1.onrender.com/api/products/create`
+- Header: `Authorization: Bearer TU_TOKEN`
+
+Body JSON:
+
+```json
+{
+  "title": "Buzo Frizado",
+  "price": 22000,
+  "category": "buzos",
+  "description": "Buzo comodo para ninos",
+  "image": "/img/logo.png"
+}
 ```
 
-### Paso 2: Render (API backend)
+### Editar producto (necesita login)
 
-1. Entrar a [render.com](https://render.com) y crear cuenta
-2. **New +** → **Web Service**
-3. Conectar el repo de GitHub
-4. Configuracion:
-   - **Root Directory**: `backend`
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-5. En **Environment**, agregar las variables del `.env.example` (valores reales)
-6. Deploy → copiar la URL (ej. `https://facheritos-api.onrender.com`)
+- Metodo: `PUT`
+- URL: `https://facheritos-1.onrender.com/api/products/:id`
 
-### Paso 3: Netlify (frontend React)
+### Eliminar producto (necesita login)
 
-1. Entrar a [netlify.com](https://netlify.com)
-2. **Add new site** → **Import from Git**
-3. Elegir el mismo repo
-4. Configuracion:
-   - **Base directory**: `frontend`
-   - **Build command**: `npm run build`
-   - **Publish directory**: `frontend/dist`
-5. En **Environment variables**:
-   ```
-   VITE_API_BASE_URL=https://facheritos-api.onrender.com
-   ```
-   (usar tu URL real de Render)
-6. Deploy
+- Metodo: `DELETE`
+- URL: `https://facheritos-1.onrender.com/api/products/:id`
 
-### Paso 4: Probar
+### Login (para obtener el token)
 
-- Abrir la URL de Netlify
-- Ver productos (vienen de Firebase via API)
-- Login admin y crear/borrar un producto
+- Metodo: `POST`
+- URL: `https://facheritos-1.onrender.com/auth/login`
 
----
+Body JSON:
 
-## Variables de entorno
-
-### Backend (`backend/.env`)
-
-Ver `backend/.env.example`
-
-### Frontend (`frontend/.env`)
-
-```
-VITE_API_BASE_URL=http://localhost:3001
+```json
+{
+  "username": "admin",
+  "password": "admin123"
+}
 ```
 
-En produccion (Netlify): la URL de Render.
+## Continuidad del proyecto
 
----
+Este trabajo es la evolucion de lo que fui haciendo en los cursos:
 
-## Endpoints API
+1. **React** → arme la tienda Facheritos con carrito y panel admin
+2. **Pre-entrega Node** → practique pedir productos a una API
+3. **Pre-proyecto Node** → cree una API simple en localhost
+4. **Proyecto final** → API con capas, Firebase, JWT y deploy online
 
-| Metodo | Ruta | Auth |
-|--------|------|------|
-| GET | `/api/products` | No |
-| GET | `/api/products/:id` | No |
-| POST | `/api/products/create` | Si |
-| PUT | `/api/products/:id` | Si |
-| DELETE | `/api/products/:id` | Si |
-| POST | `/auth/login` | No |
+## Estructura del repo
+
+```
+Facheritos/
+├── backend/     API Node.js
+├── frontend/    Pagina React
+└── README.md
+```
+
+## Nota sobre Render (plan gratis)
+
+Si la API tarda en responder la primera vez, es normal. Render "duerme" cuando nadie la usa un rato. Espera unos segundos y recarga.
